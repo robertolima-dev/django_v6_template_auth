@@ -1,0 +1,144 @@
+{
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2025-09-26T00:00:00.000Z",
+    "__export_source": "insomnia.desktop.app:v2025.0.0",
+    "resources": [
+        {
+            "_id": "wrk_user_api",
+            "_type": "workspace",
+            "name": "User API",
+            "scope": "collection"
+        },
+        {
+            "_id": "env_user_api",
+            "_type": "environment",
+            "parentId": "wrk_user_api",
+            "name": "Base Environment",
+            "data": {
+                "URL": "http://localhost:8000/api",
+                "TOKEN_USER": ""
+            }
+        },
+        {
+            "_id": "fld_auth",
+            "_type": "request_group",
+            "parentId": "wrk_user_api",
+            "name": "Auth"
+        },
+        {
+            "_id": "fld_user",
+            "_type": "request_group",
+            "parentId": "wrk_user_api",
+            "name": "User"
+        },
+        {
+            "_id": "req_login",
+            "_type": "request",
+            "parentId": "fld_auth",
+            "name": "Login",
+            "method": "POST",
+            "url": "{{ _.URL }}/v1/auth/login/",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"email\": \"user@dominio.com\",\n  \"password\": \"senha123\"\n}"
+            },
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ]
+        },
+        {
+            "_id": "req_register",
+            "_type": "request",
+            "parentId": "fld_auth",
+            "name": "Register",
+            "method": "POST",
+            "url": "{{ _.URL }}/v1/auth/register/",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"email\": \"user@dominio.com\",\n  \"first_name\": \"Nome\",\n  \"last_name\": \"Sobrenome\",\n  \"password\": \"senha123\",\n  \"phone\": \"+55 11 99999-0000\",\n  \"gender\": \"m\",\n  \"date_of_birth\": \"1990-01-01\"\n}"
+            },
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ]
+        },
+        {
+            "_id": "req_forgot",
+            "_type": "request",
+            "parentId": "fld_auth",
+            "name": "Forgot Password",
+            "method": "POST",
+            "url": "{{ _.URL }}/v1/auth/forgot_password/",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"email\": \"user@dominio.com\"\n}"
+            },
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ]
+        },
+        {
+            "_id": "req_reset",
+            "_type": "request",
+            "parentId": "fld_auth",
+            "name": "Reset Password",
+            "method": "POST",
+            "url": "{{ _.URL }}/v1/auth/reset_password/",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"token\": \"<token_de_reset>\",\n  \"password\": \"NovaSenha123\"\n}"
+            },
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ]
+        },
+        {
+            "_id": "req_confirm",
+            "_type": "request",
+            "parentId": "fld_auth",
+            "name": "Confirm Email",
+            "method": "POST",
+            "url": "{{ _.URL }}/v1/auth/confirm_email/",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"token\": \"<token_de_confirmacao>\"\n}"
+            },
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ]
+        },
+        {
+            "_id": "req_me",
+            "_type": "request",
+            "parentId": "fld_user",
+            "name": "Me",
+            "method": "GET",
+            "url": "{{ _.URL }}/v1/users/me/",
+            "headers": [
+                {
+                    "name": "Authorization",
+                    "value": "Bearer {{ _.TOKEN_USER }}"
+                },
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                }
+            ]
+        }
+    ]
+}
