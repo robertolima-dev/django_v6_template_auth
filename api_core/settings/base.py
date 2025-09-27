@@ -16,6 +16,7 @@ environ.Env.read_env(BASE_DIR / ".env")
 # Core
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="change-me")
 DEBUG = env("DJANGO_DEBUG")
+APP_KEY = env("APP_KEY", default="")
 ALLOWED_HOSTS: list[str] = env.list("DJANGO_ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
 
 INSTALLED_APPS = [
@@ -27,9 +28,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "django_summernote",
+    "channels",
     "apps.api",
     "apps.user",
     "apps.communication",
+    "apps.event_sync",
 ]
 
 MIDDLEWARE = [

@@ -61,8 +61,11 @@ class AuthApiTests(APITestCase):
             format="json",
         )
         self.assertEqual(r.status_code, status.HTTP_200_OK, r.content)
-        self.assertTrue(r.data["sent"])  # always true
-        self.assertIn("token", r.data)
+        self.assertIn("message", r.data)
+        self.assertEqual(r.data["message"], "Email enviado com sucesso")
+        self.assertTrue(
+            UserToken.objects.filter(user=user, token_type="change_password").exists()
+        )
 
     def test_forgot_password_silently_ok_when_user_not_exists(self):
         r = self.client.post(
@@ -71,7 +74,9 @@ class AuthApiTests(APITestCase):
             format="json",
         )
         self.assertEqual(r.status_code, status.HTTP_200_OK, r.content)
-        self.assertTrue(r.data["sent"])  # token may not be present
+        self.assertIn("message", r.data)
+        self.assertEqual(r.data["message"], "Email enviado com sucesso")
+        self.assertEqual(UserToken.objects.count(), 0)
 
     def test_reset_password_with_token(self):
         user = User.objects.create_user(
